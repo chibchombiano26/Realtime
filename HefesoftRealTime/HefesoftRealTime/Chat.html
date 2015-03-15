@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>SignalR Simple Chat</title>
+    <style type="text/css">
+        .container {
+            background-color: #99CCFF;
+            border: thick solid #808080;
+            padding: 20px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" id="message" />
+        <input type="button" id="sendmessage" value="Send" />
+        <input type="hidden" id="displayname" />
+        <ul id="discussion"></ul>
+    </div>
+    <!--Script references. -->
+    <!--Reference the jQuery library. -->
+    <script src="Scripts/jquery-1.6.4.min.js"></script>
+    <!--Reference the SignalR library. -->
+    <script src="Scripts/jquery.signalR-2.2.0.min.js"></script>   
+    <!--Add script to update the page and send messages.-->
+    <script type="text/javascript">
+        $(function () {
+
+            var proxy;
+            $.connection.hub.logging = true;
+
+            //La url a la que nos deseamos conectar
+            var connection = $.hubConnection("http://hefesoftrealtime.azurewebsites.net/");
+            //Nombre del hub a conectar
+            proxy = connection.createHubProxy("chatHub");
+            //Para que acepte cross domain
+            connection.start({ jsonp: true }).done(function () {
+                $('#sendmessage').click(function () {
+                    // Call the Send method on the hub.
+                    proxy.invoke('send', $('#displayname').val(), $('#message').val());
+                    // Clear text box and reset focus for next comment.
+                    $('#message').val('').focus();
+                });
+            });
+           
+            proxy.on("broadcastMessage", function (name, message) {
+                // Html encode display name and message.
+                var encodedName = $('<div />').text(name).html();
+                var encodedMsg = $('<div />').text(message).html();
+                // Add the message to the page.
+                $('#discussion').append('<li><strong>' + encodedName
+                    + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
+                console.log("test");
+            });
+
+         
+            // Get the user name and store it to prepend to messages.
+            $('#displayname').val(prompt('Enter your name:', ''));
+            // Set initial focus to message input box.
+            $('#message').focus();            
+            
+        });
+
+        function signIn(userName, password) {
+            return $.post("/token", { grant_type: "password", username: userName, password: password })
+                .done(function (data) {
+                    if (data && data.access_token) {
+                        chatHub.useBearerToken(data.access_token);
+                        console.log("Login successful");
+                    }
+                })
+                .fail(function (xhr) {
+                    if (xhr.status == 400) {
+                        console.log("Invalid user name or password");
+                    } else {
+                        console.log("Unexpected error while signing in");
+                    }
+                });
+        }
+
+    </script>
+</body>
+</html>
