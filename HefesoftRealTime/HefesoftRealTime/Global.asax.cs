@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
+using System.Web.Http;
+using HefesoftRealTime.App_Start;
 
 namespace HefesoftRealTime
 {
@@ -13,7 +15,7 @@ namespace HefesoftRealTime
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            
+            WebApiConfig.Register(GlobalConfiguration.Configuration);
         }
 
         protected void Session_Start(object sender, EventArgs e)
