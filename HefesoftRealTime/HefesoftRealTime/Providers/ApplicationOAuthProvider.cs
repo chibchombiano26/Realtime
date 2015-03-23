@@ -40,15 +40,7 @@ namespace HefesoftRealTime.Providers
             using (UserManager<IdentityUser> userManager = _userManagerFactory())
             {
                 TableUser user = await userManager.FindAsync(context.UserName, context.Password);
-
-                //Usuario de pruebas
-                //if (user == null)
-                //{
-                //    var id = Guid.NewGuid().ToString();
-                //    var result = await userManager.CreateAsync(new IdentityUser() { UserName = "jose123", Email = "test@hotmail.com", Id = id }, "clave123456");
-                //    user = new IdentityUser("jose123") { Id = id };
-                //}
-
+             
                 if (user == null)
                 {
                     context.SetError("invalid_grant", "The user name or password is incorrect.");

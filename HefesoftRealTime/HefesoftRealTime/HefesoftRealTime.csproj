@@ -209,6 +209,7 @@
     <Compile Include="Azure\Table_Storage.cs" />
     <Compile Include="ChatHub.cs" />
     <Compile Include="Controllers\PasswordController.cs" />
+    <Compile Include="Controllers\SignalRController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
