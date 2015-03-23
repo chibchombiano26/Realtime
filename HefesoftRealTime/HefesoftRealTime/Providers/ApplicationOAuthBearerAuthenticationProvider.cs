@@ -19,6 +19,15 @@ namespace HefesoftRealTime.Providers
             // (by default OAuthBearerAuthenticationHandler 
             // only checks Authorization header)
             var tokenCookie = context.OwinContext.Request.Cookies["BearerToken"];
+
+            string bearerToken = context.Request.Query.Get("bearer_token");
+
+            if (bearerToken != null)
+            {
+                string[] authorization = new string[] { "bearer " + bearerToken };
+                context.Request.Headers.Add("Authorization", authorization);
+            }
+
             if (!string.IsNullOrEmpty(tokenCookie))
                 context.Token = tokenCookie;
             return Task.FromResult<object>(null);

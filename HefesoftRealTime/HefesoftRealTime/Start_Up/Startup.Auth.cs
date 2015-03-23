@@ -49,7 +49,7 @@ namespace HefesoftRealTime
             // app.UseOAuthBearerTokens(OAuthOptions);
 
             app.UseOAuthAuthorizationServer(OAuthOptions);
-
+            
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions
             {
                 Provider = new ApplicationOAuthBearerAuthenticationProvider(),

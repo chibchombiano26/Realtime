@@ -221,6 +221,7 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Start_Up\MyMiddlewareClass.cs" />
     <Compile Include="Start_Up\Startup.cs" />
     <Compile Include="Start_Up\Startup.Auth.cs">
       <SubType>Code</SubType>
